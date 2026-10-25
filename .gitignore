@@ -1,0 +1,19 @@
+# Node dependencies & builds
+**/node_modules/
+**/dist/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
