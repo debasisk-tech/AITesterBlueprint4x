@@ -1,3 +1,6 @@
+# Tool & assistant configs
+.commandcode/
+
 # Node dependencies & builds
 **/node_modules/
 **/dist/
