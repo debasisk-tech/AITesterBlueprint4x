@@ -209,5 +209,33 @@ Adhering to `ANTI-HALLUCINATION.rules.md`:
 | **ADF Parser Crash on unknown node** | Tool fails before reaching LLM | Implement graceful node traversal fallback that extracts `.text` from leaf nodes. |
 | **Jira Cloud 429 Rate Limits** | API request fails under batch processing | Implement exponential backoff retry decorator in `fetch_jira_issue.py`. |
 | **Large description + 50 attachments** | Exceeds token context or slows down processing | Filter attachments to metadata only (names, MIME types); summarize long text or chunk logically. |
-| **Inconsistent Jira auth across teams** | Some use API tokens, others use PAT/SSO | Provide dual-mode configuration support in `.env` (`JIRA_AUTH_TYPE=BASIC|BEARER`). |
+---
+
+## 7. Jira Cloud Dashboard & Bug Management Findings (Live Verification)
+
+During testing and verification with project `SCRUM`, the following live API endpoints were validated:
+
+1. **Jira Cloud Native Dashboard:**
+   - Successfully created a native dashboard: **"Bug & QA Testing Dashboard"**
+   - URL: `https://<your-domain>.atlassian.net/jira/dashboards/<dashboardId>`
+   - Configured with live gadgets:
+     - `com.atlassian.jira.gadgets:filter-results-gadget` (Filter: `project = SCRUM ORDER BY updated DESC`)
+     - `com.atlassian.jira.gadgets:assigned-to-me-gadget`
+     - `com.atlassian.jira.gadgets:pie-chart-gadget`
+     - `com.atlassian.streams.streams-jira-plugin:activitystream-gadget`
+
+2. **Issue Creation (`POST /rest/api/3/issue`):**
+   - Verified creating test bugs with summary, ADF description, priority, and issuetype (`Bug`).
+   - Successfully created test ticket `SCRUM-5`.
+
+3. **Issue Editing (`PUT /rest/api/3/issue/{key}`):**
+   - Verified updating summary, description, and priority (returned `204 No Content`).
+
+4. **Workflow Status Transitions (`POST /rest/api/3/issue/{key}/transitions`):**
+   - Supported workflow states: `To Do` (11), `In Progress` (21), `In Review` (31), `QA Testing` (41), `Done` (51).
+
+5. **Local Testing Dashboard (`jira_bug_dashboard.py`):**
+   - Created standalone zero-dependency dashboard server using Python's `http.server` + `requests`.
+   - Allows QA engineers to instantly create, view, edit, filter, and transition bugs, and copy ticket IDs for test plan creation.
+
 
