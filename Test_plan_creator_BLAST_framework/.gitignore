@@ -1,0 +1,13 @@
+# Environment variables & secrets
+.env
+.env.*
+*.env
+!.env.example
+
+# Temporary and intermediate artifacts
+.tmp/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
